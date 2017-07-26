@@ -1,5 +1,3 @@
-package org.coding.skp;
-
 import java.util.ArrayList;
 import java.util.List;
 
