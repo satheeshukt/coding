@@ -4,7 +4,7 @@ public class FindPairOfNums {
 
 	public static void main(String[] args) {
 		int [] nums = {0,1,1,2,3,3,4,4,5,5,7,6};
-		int reqSum = 0; // pairs: 4,5 & 2,7 & 3,6
+		int reqSum = 9; // pairs: 4,5 & 2,7 & 3,6
 				
 		// if the given nums are only single digits then use array of size 10 
 		// for 0 to 9 nums to store the count. 
