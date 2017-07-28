@@ -53,8 +53,6 @@ public class MinMaxTree {
 	}
 	
 	private static void initTree(int initVal){
-		// The tree has now fully built, store the root element as 
-		// min/max values before returning root
 		minVal = initVal;
 		maxVal = initVal;
 	}
