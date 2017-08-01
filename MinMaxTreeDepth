@@ -1,0 +1,160 @@
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * 
+ * @author Satheesh Palani
+ * To find the min and max depth of Tree based on recursion
+ */
+// Sample Input Tree:
+//  10
+//  /\ \
+// 5  6  7
+// /\    /\
+// 4 3   1 9
+// /
+// 2
+
+//Sample Output of above input Tree:
+// Min Tree Depth: 1
+// Max Tree Depth: 3
+
+public class MinMaxTreeDepth {
+	
+	private List<MinMaxTreeDepth> childNodes;
+	private String name;
+	
+	private static int currTreeDepth;
+	private static int maxTreeDepth;
+	private static int minTreeDepth;
+	
+	// Getters and Setters
+	public List<MinMaxTreeDepth> getChildNodes() {
+		return childNodes;
+	}
+	public void setChildNodes(List<MinMaxTreeDepth> nodes) {
+		this.childNodes = nodes;
+	}
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
+	
+	// static method to return max tree depth
+	public static int getMaxTreeDepth() {
+		return maxTreeDepth;
+	}
+	
+	// static method to return min tree depth
+	public static int getMinTreeDepth() {
+		return minTreeDepth;
+	}
+	
+	// Recursive method to print all the tree nodes
+	public void parseTree(MinMaxTreeDepth parent){
+	
+		if (parent == null)
+			return;
+				
+		if(parent.getChildNodes() == null){ // if no child then quit the recursion loop
+			
+			// if the current recursion level is higher than tree depth, then 
+			// assign current depth as max tree depth
+			if(maxTreeDepth < currTreeDepth)
+				maxTreeDepth = currTreeDepth;
+		
+			// if already some depth is assigned, then look for min recursion depth
+			if(minTreeDepth !=0 ){ 
+				if(minTreeDepth > currTreeDepth )
+					minTreeDepth = currTreeDepth;
+			}
+			else // only used for first assignment of min depth value
+				minTreeDepth = currTreeDepth;
+				
+			return;
+		}
+		
+		currTreeDepth++; // parent.getChildNodes() is not null, so increment depth for next iteration
+		
+		for(MinMaxTreeDepth node : parent.getChildNodes()){
+			parseTree(node); // call the printTree recursively
+		}
+		
+		currTreeDepth--; // once all the child nodes are processed, it will return to parent so reduce the depth
+		
+	}
+	
+	// Entry point to the program. It builds the tree and prints all
+	public static void main(String[] args){
+		MinMaxTreeDepth root = MinMaxTreeDepth.buildTree();
+		root.parseTree(root);
+		System.out.println("Min Tree Depth: "+MinMaxTreeDepth.getMinTreeDepth());
+		System.out.println("Max Tree Depth: "+MinMaxTreeDepth.getMaxTreeDepth());
+	}
+	
+	//  10
+	//  /\ \
+	// 5  6  7
+	// /\    /\
+	// 4 3   1 9
+	// /
+	// 2
+	// It builds the above specified tree
+	public static MinMaxTreeDepth buildTree(){ // Build a sample Tree
+		MinMaxTreeDepth thirdLevelEle = new MinMaxTreeDepth();
+		thirdLevelEle.setName("2");
+		thirdLevelEle.setChildNodes(null);
+		
+		List<MinMaxTreeDepth> thirdLevelList = new ArrayList<>();
+		thirdLevelList.add(thirdLevelEle);
+		
+		MinMaxTreeDepth secondLevelLeft = new MinMaxTreeDepth();
+		secondLevelLeft.setName("4");
+		secondLevelLeft.setChildNodes(thirdLevelList);
+		
+		MinMaxTreeDepth secondLevelRight = new MinMaxTreeDepth();
+		secondLevelRight.setName("3");
+		secondLevelRight.setChildNodes(null);
+		
+		MinMaxTreeDepth secondLevelMidLeft = new MinMaxTreeDepth();
+		secondLevelMidLeft.setName("1");
+		secondLevelMidLeft.setChildNodes(null);
+		
+		MinMaxTreeDepth secondLevelMidRight = new MinMaxTreeDepth();
+		secondLevelMidRight.setName("9");
+		secondLevelMidRight.setChildNodes(null);
+		
+		List<MinMaxTreeDepth> secondLevelLeftList = new ArrayList<>();
+		secondLevelLeftList.add(secondLevelLeft);
+		secondLevelLeftList.add(secondLevelRight);
+		
+		MinMaxTreeDepth firstLevelLeft = new MinMaxTreeDepth();
+		firstLevelLeft.setName("5");
+		firstLevelLeft.setChildNodes(secondLevelLeftList);
+		
+		List<MinMaxTreeDepth> secondLevelMidList = new ArrayList<>();
+		secondLevelMidList.add(secondLevelMidLeft);
+		secondLevelMidList.add(secondLevelMidRight);
+		
+		MinMaxTreeDepth firstLevelMid = new MinMaxTreeDepth();
+		firstLevelMid.setName("6");
+		firstLevelMid.setChildNodes(null);
+		
+		MinMaxTreeDepth firstLevelRight = new MinMaxTreeDepth();
+		firstLevelRight.setName("7");
+		firstLevelRight.setChildNodes(secondLevelMidList);
+		
+		List<MinMaxTreeDepth> firstLevelList = new ArrayList<>();
+		firstLevelList.add(firstLevelLeft);
+		firstLevelList.add(firstLevelMid);
+		firstLevelList.add(firstLevelRight);
+		
+		MinMaxTreeDepth root = new MinMaxTreeDepth();
+		root.setName("10");
+		root.setChildNodes(firstLevelList);
+		
+		return root;
+	}
+}
